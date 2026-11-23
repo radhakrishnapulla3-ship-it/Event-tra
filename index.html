@@ -1,0 +1,1520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#E23744" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Catering Pro" />
+  <title>Catering Pro — Business & Wealth Manager</title>
+  <style>
+    :root {
+      --brand: #E23744;
+      --brand-dark: #CB202D;
+      --brand-soft: #FFF1F2;
+      --bg: #F4F5F7;
+      --surface: #FFFFFF;
+      --text-main: #1C1C1C;
+      --text-sub: #696969;
+      --text-muted: #9C9C9C;
+      --border: #EAECEF;
+      --green: #24963F;
+      --green-bg: #EBF8EE;
+      --amber: #D97706;
+      --amber-bg: #FEF5E7;
+      --red: #DC2626;
+      --red-bg: #FEE2E2;
+      --blue: #2563EB;
+      --blue-bg: #EFF6FF;
+      --purple: #7C3AED;
+      --purple-bg: #F5F3FF;
+      --card-shadow: 0 4px 20px rgba(28, 28, 28, 0.05);
+      --nav-shadow: 0 -2px 16px rgba(28, 28, 28, 0.06);
+      --radius: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text-main);
+      min-height: 100vh;
+      padding-bottom: 96px;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Zomato-inspired Crisp White Sticky Top Bar */
+    .topbar {
+      background: var(--surface);
+      padding: 14px 16px 12px;
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-block {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-badge {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      background: var(--brand);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(226, 55, 68, 0.28);
+    }
+
+    .brand-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--text-main);
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+    }
+
+    .brand-sub {
+      font-size: 0.74rem;
+      color: var(--text-sub);
+      font-weight: 500;
+      margin-top: 1px;
+    }
+
+    .alarm-chip {
+      background: var(--brand-soft);
+      color: var(--brand);
+      border: 1px solid rgba(226, 55, 68, 0.25);
+      padding: 7px 12px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .alarm-chip.active {
+      background: var(--green-bg);
+      color: var(--green);
+      border-color: rgba(36, 150, 63, 0.25);
+    }
+
+    .alarm-chip:active {
+      transform: scale(0.96);
+    }
+
+    /* Search Bar inside Topbar */
+    .search-bar {
+      margin-top: 12px;
+      position: relative;
+    }
+
+    .search-bar svg {
+      position: absolute;
+      left: 13px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--brand);
+      pointer-events: none;
+    }
+
+    .search-input {
+      width: 100%;
+      height: 42px;
+      padding: 0 14px 0 38px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      font-size: 0.88rem;
+      color: var(--text-main);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+      outline: none;
+    }
+
+    .search-input:focus {
+      border-color: var(--brand);
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 540px;
+      margin: 0 auto;
+      padding: 14px 16px;
+    }
+
+    .view {
+      display: none;
+    }
+
+    .view.active {
+      display: block;
+    }
+
+    /* Hero KPI Strip */
+    .hero-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .hero-box {
+      background: var(--surface);
+      border-radius: 16px;
+      padding: 12px 10px;
+      box-shadow: var(--card-shadow);
+      border: 1px solid var(--border);
+    }
+
+    .hero-label {
+      font-size: 0.67rem;
+      font-weight: 700;
+      color: var(--text-sub);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .hero-val {
+      font-size: 1.04rem;
+      font-weight: 800;
+      margin-top: 4px;
+      color: var(--text-main);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Section Header */
+    .sec-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 6px 0 12px;
+    }
+
+    .sec-title {
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: var(--text-sub);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    /* Pill Filters */
+    .pill-row {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      margin-bottom: 14px;
+      scrollbar-width: none;
+    }
+
+    .pill-row::-webkit-scrollbar { display: none; }
+
+    .pill {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text-sub);
+      padding: 7px 14px;
+      border-radius: 10px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+
+    .pill.active {
+      background: var(--brand-soft);
+      color: var(--brand);
+      border-color: var(--brand);
+      font-weight: 700;
+    }
+
+    /* Clean Zomato-Style Cards (Zero animation/movement) */
+    .stack {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 16px;
+      box-shadow: var(--card-shadow);
+      border: 1px solid var(--border);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .card-title {
+      font-size: 1.08rem;
+      font-weight: 800;
+      color: var(--text-main);
+      letter-spacing: -0.01em;
+    }
+
+    .card-sub {
+      font-size: 0.79rem;
+      color: var(--text-sub);
+      margin-top: 4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .meta-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .price-col {
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .price-tag {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--text-main);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .alarm-hint {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      margin-top: 3px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .live-timer {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: var(--blue-bg);
+      color: var(--blue);
+      font-size: 0.73rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 8px;
+      margin-top: 9px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .live-timer.urgent {
+      background: var(--brand-soft);
+      color: var(--brand);
+    }
+
+    .note-strip {
+      margin-top: 11px;
+      padding: 9px 12px;
+      background: #F8F9FA;
+      border-radius: 10px;
+      font-size: 0.8rem;
+      color: var(--text-sub);
+      line-height: 1.35;
+    }
+
+    .card-footer {
+      margin-top: 13px;
+      padding-top: 11px;
+      border-top: 1px dashed var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tag-group {
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+    }
+
+    .status-pill {
+      padding: 5px 11px;
+      border-radius: 8px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+    }
+
+    .status-pill:active { opacity: 0.8; }
+    .st-upcoming { background: var(--amber-bg); color: var(--amber); }
+    .st-completed { background: var(--green-bg); color: var(--green); }
+    .st-received { background: var(--green-bg); color: var(--green); }
+    .st-pending { background: var(--amber-bg); color: var(--amber); }
+    .st-rejected { background: var(--red-bg); color: var(--red); }
+
+    .st-exp { background: var(--brand-soft); color: var(--brand); }
+    .st-sav { background: var(--blue-bg); color: var(--blue); }
+    .st-inv { background: var(--purple-bg); color: var(--purple); }
+    .st-per { background: #F1F5F9; color: #475569; }
+
+    .action-btns {
+      display: flex;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .act-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 9px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text-sub);
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+    }
+
+    .act-btn:active { background: #F3F4F6; }
+    .act-btn.del { color: var(--brand); border-color: rgba(226, 55, 68, 0.25); background: var(--brand-soft); }
+
+    /* Money Flow Breakdown Card */
+    .breakdown-card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 16px;
+      box-shadow: var(--card-shadow);
+      border: 1px solid var(--border);
+      margin-bottom: 16px;
+    }
+
+    .b-row { margin-bottom: 12px; }
+    .b-row:last-child { margin-bottom: 0; }
+
+    .b-top {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    .b-track {
+      height: 7px;
+      background: #EEF0F3;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .b-fill {
+      height: 100%;
+      border-radius: 999px;
+    }
+
+    /* Summary Grid */
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .sum-card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 16px;
+      box-shadow: var(--card-shadow);
+      border: 1px solid var(--border);
+    }
+
+    .sum-card.full { grid-column: span 2; }
+
+    .sum-lbl {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--text-sub);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .sum-num {
+      font-size: 1.42rem;
+      font-weight: 800;
+      margin-top: 6px;
+      color: var(--text-main);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Floating Primary Action Button (Zomato Red) */
+    .fab {
+      position: fixed;
+      right: 16px;
+      bottom: 82px;
+      height: 48px;
+      padding: 0 18px;
+      border-radius: 999px;
+      background: var(--brand);
+      color: #fff;
+      border: none;
+      font-size: 0.88rem;
+      font-weight: 700;
+      box-shadow: 0 6px 18px rgba(226, 55, 68, 0.35);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      z-index: 25;
+    }
+
+    .fab:active { background: var(--brand-dark); transform: scale(0.97); }
+
+    /* Clean Zomato-Style Fixed Bottom Tab Bar */
+    .bottom-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      box-shadow: var(--nav-shadow);
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      height: 64px;
+      z-index: 30;
+    }
+
+    .tab-item {
+      background: none;
+      border: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      color: var(--text-muted);
+      font-size: 0.72rem;
+      font-weight: 700;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .tab-item.active {
+      color: var(--brand);
+    }
+
+    .tab-item.active::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      width: 36px;
+      height: 3px;
+      background: var(--brand);
+      border-bottom-left-radius: 3px;
+      border-bottom-right-radius: 3px;
+    }
+
+    /* Bottom Sheet Modal */
+    .backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(28, 28, 28, 0.55);
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+      z-index: 50;
+    }
+
+    .backdrop.open { display: flex; }
+
+    .modal-sheet {
+      background: var(--surface);
+      width: 100%;
+      max-width: 540px;
+      border-top-left-radius: 22px;
+      border-top-right-radius: 22px;
+      padding: 20px 18px 28px;
+      max-height: 92vh;
+      overflow-y: auto;
+    }
+
+    .modal-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .modal-head h2 {
+      font-size: 1.08rem;
+      font-weight: 800;
+    }
+
+    .f-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .f-group { display: flex; flex-direction: column; gap: 5px; }
+    .f-group.full { grid-column: span 2; }
+
+    label {
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: var(--text-sub);
+    }
+
+    input, select, textarea {
+      padding: 11px 12px;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      font-size: 0.9rem;
+      background: #F8F9FA;
+      color: var(--text-main);
+      outline: none;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--brand);
+      background: #fff;
+    }
+
+    .btn-primary {
+      width: 100%;
+      margin-top: 16px;
+      padding: 13px;
+      background: var(--brand);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* Fullscreen Alarm */
+    .alarm-screen {
+      position: fixed;
+      inset: 0;
+      background: var(--brand);
+      color: #fff;
+      z-index: 100;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .alarm-screen.ringing { display: flex; }
+
+    .alarm-btns {
+      display: flex;
+      gap: 12px;
+      margin-top: 28px;
+      width: 100%;
+      max-width: 340px;
+    }
+
+    .alarm-btns button {
+      flex: 1;
+      padding: 14px;
+      border-radius: 12px;
+      border: none;
+      font-size: 0.95rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .btn-snz { background: rgba(255, 255, 255, 0.22); color: #fff; }
+    .btn-off { background: #fff; color: var(--brand); }
+
+    .empty-box {
+      text-align: center;
+      padding: 38px 20px;
+      background: var(--surface);
+      border-radius: var(--radius);
+      border: 1px dashed var(--border);
+      color: var(--text-sub);
+      font-size: 0.88rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ZOMATO-CLEAN WHITE HEADER -->
+  <header class="topbar">
+    <div class="topbar-row">
+      <div class="brand-block">
+        <div class="brand-badge">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 17h18M5 17a7 7 0 0 1 14 0M12 7v3M10 7h4"/>
+          </svg>
+        </div>
+        <div>
+          <div class="brand-title">Catering Pro</div>
+          <div class="brand-sub">Events, Cash Flow & Wealth</div>
+        </div>
+      </div>
+      <button class="alarm-chip" id="alarmBtn" onclick="activateAndTestAlarm()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        <span id="alarmBtnText">Enable Alarm</span>
+      </button>
+    </div>
+
+    <div class="search-bar" id="searchContainer">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" class="search-input" id="searchInput" placeholder="Search catering events, city, or notes..." oninput="renderAll()" />
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- TOP KPI SUMMARY STRIP -->
+    <div class="hero-strip">
+      <div class="hero-box">
+        <div class="hero-label">Received</div>
+        <div class="hero-val" id="kpiReceived" style="color:var(--green);">₹0</div>
+      </div>
+      <div class="hero-box">
+        <div class="hero-label">Allocated</div>
+        <div class="hero-val" id="kpiAllocated" style="color:var(--brand);">₹0</div>
+      </div>
+      <div class="hero-box">
+        <div class="hero-label">In Hand</div>
+        <div class="hero-val" id="kpiBalance">₹0</div>
+      </div>
+    </div>
+
+    <!-- VIEW 1: EVENTS -->
+    <section class="view active" id="viewEvents">
+      <div class="pill-row">
+        <button class="pill active" onclick="setEventFilter('All', this)">All Events</button>
+        <button class="pill" onclick="setEventFilter('Upcoming', this)">Upcoming</button>
+        <button class="pill" onclick="setEventFilter('Completed', this)">Completed</button>
+        <button class="pill" onclick="setEventFilter('Pending', this)">Payment Due</button>
+      </div>
+      <div class="sec-head">
+        <span class="sec-title">Catering Bookings</span>
+        <span class="sec-title" id="eventCountLabel">0 Events</span>
+      </div>
+      <div class="stack" id="eventList"></div>
+    </section>
+
+    <!-- VIEW 2: WHERE MONEY GOES -->
+    <section class="view" id="viewMoney">
+      <div class="pill-row">
+        <button class="pill active" onclick="setMoneyFilter('All', this)">All Outflows</button>
+        <button class="pill" onclick="setMoneyFilter('Expense', this)">Expenses</button>
+        <button class="pill" onclick="setMoneyFilter('Savings', this)">Savings</button>
+        <button class="pill" onclick="setMoneyFilter('Investment', this)">Investments</button>
+        <button class="pill" onclick="setMoneyFilter('Personal / Debt', this)">Personal & Debt</button>
+      </div>
+
+      <div class="breakdown-card" id="breakdownCard"></div>
+
+      <div class="sec-head">
+        <span class="sec-title">Transactions</span>
+        <span class="sec-title" id="moneyCountLabel">0 Entries</span>
+      </div>
+      <div class="stack" id="moneyList"></div>
+    </section>
+
+    <!-- VIEW 3: BUSINESS SUMMARY -->
+    <section class="view" id="viewSummary">
+      <div class="sec-head">
+        <span class="sec-title">Financial Overview</span>
+      </div>
+      <div class="summary-grid">
+        <div class="sum-card full">
+          <div class="sum-lbl">Net Catering Profit (Received − Business Expenses)</div>
+          <div class="sum-num" id="sumProfit" style="color:var(--green);">₹0</div>
+          <div class="b-track" style="margin-top:10px; height:8px;">
+            <div class="b-fill" id="collectBar" style="width:0%; background:var(--green);"></div>
+          </div>
+          <p style="font-size:0.76rem; color:var(--text-sub); margin-top:8px;">
+            Payment Collection Rate: <strong id="sumRate">0%</strong>
+          </p>
+        </div>
+
+        <div class="sum-card">
+          <div class="sum-lbl">Total Booked</div>
+          <div class="sum-num" id="sumBooked">₹0</div>
+        </div>
+        <div class="sum-card">
+          <div class="sum-lbl">Cash Received</div>
+          <div class="sum-num" id="sumReceived" style="color:var(--green);">₹0</div>
+        </div>
+        <div class="sum-card">
+          <div class="sum-lbl">Pending Due</div>
+          <div class="sum-num" id="sumPending" style="color:var(--amber);">₹0</div>
+        </div>
+        <div class="sum-card">
+          <div class="sum-lbl">Business Expenses</div>
+          <div class="sum-num" id="sumExpenses" style="color:var(--brand);">₹0</div>
+        </div>
+        <div class="sum-card">
+          <div class="sum-lbl">Total Savings</div>
+          <div class="sum-num" id="sumSavings" style="color:var(--blue);">₹0</div>
+        </div>
+        <div class="sum-card">
+          <div class="sum-lbl">Total Investments</div>
+          <div class="sum-num" id="sumInvestments" style="color:var(--purple);">₹0</div>
+        </div>
+        <div class="sum-card full">
+          <div class="sum-lbl">Cash Remaining In Hand</div>
+          <div class="sum-num" id="sumCashInHand">₹0</div>
+          <p style="font-size:0.75rem; color:var(--text-sub); margin-top:4px;" id="sumEventStats">0 Upcoming • 0 Completed</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <button class="fab" id="fabBtn" onclick="onFabClick()">+ Add Event</button>
+
+  <!-- ZOMATO-CLEAN BOTTOM TAB BAR -->
+  <nav class="bottom-bar">
+    <button class="tab-item active" id="tabEvents" onclick="switchView('events')">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      <span>Events</span>
+    </button>
+    <button class="tab-item" id="tabMoney" onclick="switchView('money')">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+      <span>Money Flow</span>
+    </button>
+    <button class="tab-item" id="tabSummary" onclick="switchView('summary')">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      <span>Summary</span>
+    </button>
+  </nav>
+
+  <!-- EVENT MODAL -->
+  <div class="backdrop" id="eventModal" onclick="closeOnBg(event, 'eventModal')">
+    <div class="modal-sheet">
+      <div class="modal-head">
+        <h2 id="evModalTitle">Add Catering Event</h2>
+        <button class="act-btn" onclick="closeModal('eventModal')">✕</button>
+      </div>
+      <form id="evForm" onsubmit="saveEvent(event)">
+        <input type="hidden" id="editEvId" />
+        <div class="f-grid">
+          <div class="f-group full">
+            <label>Event Name / City</label>
+            <input type="text" id="evName" placeholder="e.g. Amritsar Wedding Buffet" required />
+          </div>
+          <div class="f-group">
+            <label>Event Date</label>
+            <input type="date" id="evDate" required />
+          </div>
+          <div class="f-group">
+            <label>Event Time</label>
+            <input type="time" id="evTime" required />
+          </div>
+          <div class="f-group">
+            <label>Event Status</label>
+            <select id="evStatus">
+              <option value="Upcoming">Upcoming</option>
+              <option value="Completed">Completed</option>
+            </select>
+          </div>
+          <div class="f-group">
+            <label>Amount (₹)</label>
+            <input type="number" id="evAmount" placeholder="800" min="0" required />
+          </div>
+          <div class="f-group">
+            <label>Payment Status</label>
+            <select id="evPayment">
+              <option value="Pending">Pending</option>
+              <option value="Received">Received</option>
+              <option value="Rejected">Rejected</option>
+            </select>
+          </div>
+          <div class="f-group">
+            <label>Alarm Reminder</label>
+            <select id="evReminder">
+              <option value="0">At exact event time</option>
+              <option value="15">15 mins before</option>
+              <option value="30" selected>30 mins before</option>
+              <option value="60">1 hour before</option>
+              <option value="120">2 hours before</option>
+              <option value="1440">1 day before</option>
+            </select>
+          </div>
+          <div class="f-group full">
+            <label>Notes / Client Contact</label>
+            <textarea id="evNotes" rows="2" placeholder="Client phone, advance token, menu notes..."></textarea>
+          </div>
+        </div>
+        <button type="submit" class="btn-primary">Save Booking</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- MONEY FLOW MODAL -->
+  <div class="backdrop" id="moneyModal" onclick="closeOnBg(event, 'moneyModal')">
+    <div class="modal-sheet">
+      <div class="modal-head">
+        <h2 id="mnModalTitle">Add Money Allocation</h2>
+        <button class="act-btn" onclick="closeModal('moneyModal')">✕</button>
+      </div>
+      <form id="mnForm" onsubmit="saveMoney(event)">
+        <input type="hidden" id="editMnId" />
+        <div class="f-grid">
+          <div class="f-group full">
+            <label>Title (Where did the money go?)</label>
+            <input type="text" id="mnTitle" placeholder="e.g. Sabzi & Masala, SIP Investment, Bank Savings" required />
+          </div>
+          <div class="f-group">
+            <label>Allocation Type</label>
+            <select id="mnType" onchange="populateCategories()">
+              <option value="Expense">Business Expense</option>
+              <option value="Savings">Savings</option>
+              <option value="Investment">Investment</option>
+              <option value="Personal / Debt">Personal / Home / Debt</option>
+            </select>
+          </div>
+          <div class="f-group">
+            <label>Category</label>
+            <select id="mnCategory"></select>
+          </div>
+          <div class="f-group">
+            <label>Amount (₹)</label>
+            <input type="number" id="mnAmount" placeholder="350" min="0" required />
+          </div>
+          <div class="f-group">
+            <label>Date</label>
+            <input type="date" id="mnDate" required />
+          </div>
+          <div class="f-group full">
+            <label>Linked Event (Optional)</label>
+            <select id="mnEvent">
+              <option value="">General / Non-Event</option>
+            </select>
+          </div>
+          <div class="f-group full">
+            <label>Notes / Account</label>
+            <input type="text" id="mnNotes" placeholder="e.g. HDFC Savings, Mutual Fund SIP, UPI" />
+          </div>
+        </div>
+        <button type="submit" class="btn-primary">Save Entry</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- FULLSCREEN ALARM -->
+  <div class="alarm-screen" id="alarmScreen">
+    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:14px;">
+      <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+    </svg>
+    <p style="text-transform:uppercase; letter-spacing:0.12em; font-size:0.78rem; opacity:0.9;">Upcoming Catering Reminder</p>
+    <h2 id="alarmTitle" style="font-size:1.85rem; margin:10px 0;">Amritsar</h2>
+    <p id="alarmMeta" style="font-size:1rem; opacity:0.95;">Starts soon</p>
+    <div class="alarm-btns">
+      <button class="btn-snz" onclick="snoozeAlarm()">Snooze 5m</button>
+      <button class="btn-off" onclick="dismissAlarm()">Dismiss</button>
+    </div>
+  </div>
+
+  <script>
+    const EV_KEY = 'catering_z_events_v1';
+    const MN_KEY = 'catering_z_money_v1';
+    let activeView = 'events';
+    let evFilter = 'All';
+    let mnFilter = 'All';
+    let audioCtx = null;
+    let ringTimer = null;
+    let activeAlarmId = null;
+
+    const CATEGORIES = {
+      'Expense': [
+        'Groceries & Raw Material',
+        'Staff & Helper Wages',
+        'Transport & Fuel',
+        'Gas & Disposables',
+        'Utensils & Equipment Rent',
+        'Other Business Expense'
+      ],
+      'Savings': [
+        'Bank Savings Account',
+        'Emergency Cash Reserve',
+        'Fixed Deposit (FD) / RD',
+        'Equipment Upgrade Fund'
+      ],
+      'Investment': [
+        'Mutual Funds / SIP',
+        'Stocks & Equity',
+        'Gold / SGB',
+        'Business Expansion'
+      ],
+      'Personal / Debt': [
+        'Home & Family Expense',
+        'Loan / EMI Repayment',
+        'Personal Withdrawal',
+        'Bills & Recharge'
+      ]
+    };
+
+    const ICONS = {
+      cal: '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>',
+      clk: '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>',
+      bell: '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>',
+      edit: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>',
+      del: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>'
+    };
+
+    const seedEvents = [
+      { id: '1', name: 'Jalandhar', date: '2026-11-13', time: '12:00', status: 'Completed', amount: 700, payment: 'Received', reminderMins: 30, notes: 'Completed & full payment received', notified: true },
+      { id: '2', name: 'Amritsar', date: '2026-11-24', time: '14:00', status: 'Upcoming', amount: 800, payment: 'Pending', reminderMins: 30, notes: 'Carry extra plates & serving spoons', notified: false }
+    ];
+
+    const seedMoney = [
+      { id: 'm1', title: 'Vegetables, Masala & Oil', type: 'Expense', category: 'Groceries & Raw Material', amount: 250, date: '2026-11-13', eventName: 'Jalandhar', notes: 'Mandi purchase' },
+      { id: 'm2', title: 'Helper Wages & Auto Fare', type: 'Expense', category: 'Staff & Helper Wages', amount: 150, date: '2026-11-13', eventName: 'Jalandhar', notes: 'Paid cash' },
+      { id: 'm3', title: 'Bank Savings Transfer', type: 'Savings', category: 'Bank Savings Account', amount: 200, date: '2026-11-14', eventName: '', notes: 'Saved from Jalandhar profit' }
+    ];
+
+    function loadEvents() {
+      const raw = localStorage.getItem(EV_KEY);
+      if (!raw) {
+        localStorage.setItem(EV_KEY, JSON.stringify(seedEvents));
+        return seedEvents;
+      }
+      return JSON.parse(raw);
+    }
+
+    function saveEventsList(list) {
+      localStorage.setItem(EV_KEY, JSON.stringify(list));
+      renderAll();
+    }
+
+    function loadMoney() {
+      const raw = localStorage.getItem(MN_KEY);
+      if (!raw) {
+        localStorage.setItem(MN_KEY, JSON.stringify(seedMoney));
+        return seedMoney;
+      }
+      return JSON.parse(raw);
+    }
+
+    function saveMoneyList(list) {
+      localStorage.setItem(MN_KEY, JSON.stringify(list));
+      renderAll();
+    }
+
+    function inr(n) {
+      return '₹' + Number(n || 0).toLocaleString('en-IN');
+    }
+
+    function time12(t) {
+      if (!t) return '';
+      const [h, m] = t.split(':').map(Number);
+      return `${h % 12 || 12}:${String(m).padStart(2, '0')} ${h >= 12 ? 'PM' : 'AM'}`;
+    }
+
+    function getTimerText(d, t) {
+      const target = new Date(`${d}T${t || '00:00'}:00`);
+      const diff = target - new Date();
+      if (isNaN(target.getTime())) return null;
+      if (diff <= 0) {
+        const ago = Math.floor(Math.abs(diff) / 60000);
+        return ago < 180 ? { text: 'Happening now', urgent: true } : { text: 'Scheduled time passed', urgent: false };
+      }
+      const mins = Math.floor(diff / 60000);
+      const hrs = Math.floor(mins / 60);
+      const days = Math.floor(hrs / 24);
+      if (days > 0) return { text: `Starts in ${days}d ${hrs % 24}h`, urgent: false };
+      if (hrs > 0) return { text: `Starts in ${hrs}h ${mins % 60}m`, urgent: hrs < 2 };
+      return { text: `Starts in ${mins}m`, urgent: true };
+    }
+
+    function esc(s) {
+      return String(s || '').replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+    }
+
+    function refreshTimersOnly() {
+      document.querySelectorAll('[data-timer-d]').forEach(el => {
+        const info = getTimerText(el.getAttribute('data-timer-d'), el.getAttribute('data-timer-t'));
+        if (info) {
+          el.textContent = info.text;
+          el.className = 'live-timer' + (info.urgent ? ' urgent' : '');
+        }
+      });
+    }
+
+    function renderAll() {
+      const events = loadEvents().sort((a, b) => `${a.date}T${a.time}`.localeCompare(`${b.date}T${b.time}`));
+      const money = loadMoney().sort((a, b) => b.date.localeCompare(a.date));
+      const q = (document.getElementById('searchInput')?.value || '').toLowerCase();
+
+      let booked = 0, received = 0, pending = 0, up = 0, done = 0;
+      events.forEach(e => {
+        const amt = Number(e.amount) || 0;
+        booked += amt;
+        if (e.payment === 'Received') received += amt;
+        if (e.payment === 'Pending') pending += amt;
+        if (e.status === 'Upcoming') up++;
+        if (e.status === 'Completed') done++;
+      });
+
+      let exp = 0, sav = 0, inv = 0, per = 0;
+      const catMap = {};
+      money.forEach(m => {
+        const amt = Number(m.amount) || 0;
+        if (m.type === 'Expense') exp += amt;
+        else if (m.type === 'Savings') sav += amt;
+        else if (m.type === 'Investment') inv += amt;
+        else per += amt;
+
+        const key = `${m.type} • ${m.category}`;
+        catMap[key] = { amt: (catMap[key]?.amt || 0) + amt, type: m.type };
+      });
+
+      const allocated = exp + sav + inv + per;
+      const inHand = received - allocated;
+      const profit = received - exp;
+
+      // Top Strip
+      document.getElementById('kpiReceived').textContent = inr(received);
+      document.getElementById('kpiAllocated').textContent = inr(allocated);
+      const balEl = document.getElementById('kpiBalance');
+      balEl.textContent = inr(inHand);
+      balEl.style.color = inHand >= 0 ? 'var(--text-main)' : 'var(--brand)';
+
+      // Summary View
+      const profEl = document.getElementById('sumProfit');
+      profEl.textContent = inr(profit);
+      profEl.style.color = profit >= 0 ? 'var(--green)' : 'var(--brand)';
+
+      document.getElementById('sumBooked').textContent = inr(booked);
+      document.getElementById('sumReceived').textContent = inr(received);
+      document.getElementById('sumPending').textContent = inr(pending);
+      document.getElementById('sumExpenses').textContent = inr(exp);
+      document.getElementById('sumSavings').textContent = inr(sav);
+      document.getElementById('sumInvestments').textContent = inr(inv);
+      document.getElementById('sumCashInHand').textContent = inr(inHand);
+      document.getElementById('sumEventStats').textContent = `${up} Upcoming • ${done} Completed`;
+
+      const rate = booked > 0 ? Math.round((received / booked) * 100) : 0;
+      document.getElementById('sumRate').textContent = `${rate}%`;
+      document.getElementById('collectBar').style.width = `${rate}%`;
+
+      // Events List
+      const visEvents = events.filter(e => {
+        const fOk = evFilter === 'All' || (evFilter === 'Upcoming' && e.status === 'Upcoming') || (evFilter === 'Completed' && e.status === 'Completed') || (evFilter === 'Pending' && e.payment === 'Pending');
+        const qOk = !q || e.name.toLowerCase().includes(q) || (e.notes || '').toLowerCase().includes(q);
+        return fOk && qOk;
+      });
+
+      document.getElementById('eventCountLabel').textContent = `${visEvents.length} Event${visEvents.length === 1 ? '' : 's'}`;
+      const evContainer = document.getElementById('eventList');
+      if (!visEvents.length) {
+        evContainer.innerHTML = `<div class="empty-box">No catering events found.<br/>Tap <strong>+ Add Event</strong> to create a booking.</div>`;
+      } else {
+        evContainer.innerHTML = visEvents.map(e => {
+          const timer = e.status === 'Upcoming' ? getTimerText(e.date, e.time) : null;
+          const stCls = e.status === 'Completed' ? 'st-completed' : 'st-upcoming';
+          const pyCls = e.payment === 'Received' ? 'st-received' : (e.payment === 'Rejected' ? 'st-rejected' : 'st-pending');
+          return `
+            <div class="card">
+              <div class="card-header">
+                <div>
+                  <div class="card-title">${esc(e.name)}</div>
+                  <div class="card-sub">
+                    <span class="meta-tag">${ICONS.cal} ${e.date}</span>
+                    <span>•</span>
+                    <span class="meta-tag">${ICONS.clk} ${time12(e.time)}</span>
+                  </div>
+                  ${timer ? `<div class="live-timer ${timer.urgent ? 'urgent' : ''}" data-timer-d="${e.date}" data-timer-t="${e.time}">${timer.text}</div>` : ''}
+                </div>
+                <div class="price-col">
+                  <div class="price-tag">${inr(e.amount)}</div>
+                  <div class="alarm-hint">${ICONS.bell} ${e.reminderMins == 0 ? 'At time' : e.reminderMins + 'm prior'}</div>
+                </div>
+              </div>
+              ${e.notes ? `<div class="note-strip">${esc(e.notes)}</div>` : ''}
+              <div class="card-footer">
+                <div class="tag-group">
+                  <button class="status-pill ${stCls}" onclick="toggleEvStatus('${e.id}')">${e.status}</button>
+                  <button class="status-pill ${pyCls}" onclick="cyclePayStatus('${e.id}')">${e.payment}</button>
+                </div>
+                <div class="action-btns">
+                  <button class="act-btn" onclick="openEvModal('${e.id}')" aria-label="Edit">${ICONS.edit}</button>
+                  <button class="act-btn del" onclick="delEvent('${e.id}')" aria-label="Delete">${ICONS.del}</button>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      // Money Flow Breakdown
+      const bCard = document.getElementById('breakdownCard');
+      const entries = Object.entries(catMap).sort((a, b) => b[1].amt - a[1].amt);
+      if (!entries.length) {
+        bCard.style.display = 'none';
+      } else {
+        bCard.style.display = 'block';
+        bCard.innerHTML = `<div class="sec-title" style="margin-bottom:12px;">Where Your Money Goes</div>` +
+          entries.map(([k, v]) => {
+            const pct = allocated > 0 ? Math.round((v.amt / allocated) * 100) : 0;
+            const col = v.type === 'Savings' ? 'var(--blue)' : (v.type === 'Investment' ? 'var(--purple)' : (v.type === 'Expense' ? 'var(--brand)' : '#475569'));
+            return `
+              <div class="b-row">
+                <div class="b-top">
+                  <span>${esc(k)}</span>
+                  <span>${inr(v.amt)} (${pct}%)</span>
+                </div>
+                <div class="b-track"><div class="b-fill" style="width:${pct}%; background:${col};"></div></div>
+              </div>
+            `;
+          }).join('');
+      }
+
+      const visMoney = money.filter(m => mnFilter === 'All' || m.type === mnFilter);
+      document.getElementById('moneyCountLabel').textContent = `${visMoney.length} Entr${visMoney.length === 1 ? 'y' : 'ies'}`;
+      const mnContainer = document.getElementById('moneyList');
+      if (!visMoney.length) {
+        mnContainer.innerHTML = `<div class="empty-box">No entries yet.<br/>Tap <strong>+ Add Entry</strong> to track expenses, savings, or investments.</div>`;
+      } else {
+        mnContainer.innerHTML = visMoney.map(m => {
+          const badge = m.type === 'Savings' ? 'st-sav' : (m.type === 'Investment' ? 'st-inv' : (m.type === 'Expense' ? 'st-exp' : 'st-per'));
+          const col = m.type === 'Savings' ? 'var(--blue)' : (m.type === 'Investment' ? 'var(--purple)' : 'var(--brand)');
+          return `
+            <div class="card">
+              <div class="card-header">
+                <div>
+                  <div class="card-title">${esc(m.title)}</div>
+                  <div class="card-sub">
+                    <span class="meta-tag">${ICONS.cal} ${m.date}</span>
+                    ${m.eventName ? `<span>• ${esc(m.eventName)}</span>` : ''}
+                  </div>
+                </div>
+                <div class="price-col">
+                  <div class="price-tag" style="color:${col};">${inr(m.amount)}</div>
+                  <div class="alarm-hint">${esc(m.type)}</div>
+                </div>
+              </div>
+              ${m.notes ? `<div class="note-strip">${esc(m.notes)}</div>` : ''}
+              <div class="card-footer">
+                <span class="status-pill ${badge}">${esc(m.category)}</span>
+                <div class="action-btns">
+                  <button class="act-btn" onclick="openMnModal('${m.id}')" aria-label="Edit">${ICONS.edit}</button>
+                  <button class="act-btn del" onclick="delMoney('${m.id}')" aria-label="Delete">${ICONS.del}</button>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+    }
+
+    function setEventFilter(f, btn) {
+      evFilter = f;
+      document.querySelectorAll('#viewEvents .pill').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      renderAll();
+    }
+
+    function setMoneyFilter(f, btn) {
+      mnFilter = f;
+      document.querySelectorAll('#viewMoney .pill').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      renderAll();
+    }
+
+    function switchView(v) {
+      activeView = v;
+      document.getElementById('viewEvents').classList.toggle('active', v === 'events');
+      document.getElementById('viewMoney').classList.toggle('active', v === 'money');
+      document.getElementById('viewSummary').classList.toggle('active', v === 'summary');
+
+      document.getElementById('tabEvents').classList.toggle('active', v === 'events');
+      document.getElementById('tabMoney').classList.toggle('active', v === 'money');
+      document.getElementById('tabSummary').classList.toggle('active', v === 'summary');
+
+      document.getElementById('searchContainer').style.display = v === 'events' ? 'block' : 'none';
+
+      const fab = document.getElementById('fabBtn');
+      if (v === 'events') {
+        fab.style.display = 'flex';
+        fab.textContent = '+ Add Event';
+      } else if (v === 'money') {
+        fab.style.display = 'flex';
+        fab.textContent = '+ Add Entry';
+      } else {
+        fab.style.display = 'none';
+      }
+    }
+
+    function onFabClick() {
+      if (activeView === 'money') openMnModal();
+      else openEvModal();
+    }
+
+    function toggleEvStatus(id) {
+      const list = loadEvents();
+      const item = list.find(x => x.id === id);
+      if (item) {
+        item.status = item.status === 'Upcoming' ? 'Completed' : 'Upcoming';
+        saveEventsList(list);
+      }
+    }
+
+    function cyclePayStatus(id) {
+      const seq = ['Pending', 'Received', 'Rejected'];
+      const list = loadEvents();
+      const item = list.find(x => x.id === id);
+      if (item) {
+        item.payment = seq[(seq.indexOf(item.payment) + 1) % seq.length];
+        saveEventsList(list);
+      }
+    }
+
+    function delEvent(id) {
+      if (confirm('Delete this booking?')) saveEventsList(loadEvents().filter(x => x.id !== id));
+    }
+
+    function delMoney(id) {
+      if (confirm('Delete this entry?')) saveMoneyList(loadMoney().filter(x => x.id !== id));
+    }
+
+    function openEvModal(id = null) {
+      document.getElementById('evForm').reset();
+      document.getElementById('editEvId').value = id || '';
+      if (id) {
+        const e = loadEvents().find(x => x.id === id);
+        if (e) {
+          document.getElementById('evModalTitle').textContent = 'Edit Booking';
+          document.getElementById('evName').value = e.name;
+          document.getElementById('evDate').value = e.date;
+          document.getElementById('evTime').value = e.time;
+          document.getElementById('evStatus').value = e.status;
+          document.getElementById('evAmount').value = e.amount;
+          document.getElementById('evPayment').value = e.payment;
+          document.getElementById('evReminder').value = e.reminderMins ?? 30;
+          document.getElementById('evNotes').value = e.notes || '';
+        }
+      } else {
+        document.getElementById('evModalTitle').textContent = 'Add Catering Event';
+        document.getElementById('evDate').value = new Date().toISOString().split('T')[0];
+        document.getElementById('evTime').value = '12:00';
+      }
+      document.getElementById('eventModal').classList.add('open');
+    }
+
+    function populateCategories(selected = null) {
+      const t = document.getElementById('mnType').value;
+      const sel = document.getElementById('mnCategory');
+      const opts = CATEGORIES[t] || [];
+      sel.innerHTML = opts.map(o => `<option value="${esc(o)}">${esc(o)}</option>`).join('');
+      if (selected && opts.includes(selected)) sel.value = selected;
+    }
+
+    function openMnModal(id = null) {
+      document.getElementById('mnForm').reset();
+      document.getElementById('editMnId').value = id || '';
+
+      const evSel = document.getElementById('mnEvent');
+      evSel.innerHTML = `<option value="">General / Non-Event</option>` +
+        loadEvents().map(e => `<option value="${esc(e.name)}">${esc(e.name)} (${e.date})</option>`).join('');
+
+      if (id) {
+        const m = loadMoney().find(x => x.id === id);
+        if (m) {
+          document.getElementById('mnModalTitle').textContent = 'Edit Money Entry';
+          document.getElementById('mnTitle').value = m.title;
+          document.getElementById('mnType').value = m.type;
+          populateCategories(m.category);
+          document.getElementById('mnAmount').value = m.amount;
+          document.getElementById('mnDate').value = m.date;
+          document.getElementById('mnEvent').value = m.eventName || '';
+          document.getElementById('mnNotes').value = m.notes || '';
+        }
+      } else {
+        document.getElementById('mnModalTitle').textContent = 'Where Money Goes';
+        document.getElementById('mnType').value = 'Expense';
+        populateCategories();
+        document.getElementById('mnDate').value = new Date().toISOString().split('T')[0];
+      }
+      document.getElementById('moneyModal').classList.add('open');
+    }
+
+    function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+    function closeOnBg(e, id) { if (e.target.id === id) closeModal(id); }
+
+    function saveEvent(e) {
+      e.preventDefault();
+      initAudio();
+      const id = document.getElementById('editEvId').value;
+      const list = loadEvents();
+      const obj = {
+        id: id || String(Date.now()),
+        name: document.getElementById('evName').value.trim(),
+        date: document.getElementById('evDate').value,
+        time: document.getElementById('evTime').value,
+        status: document.getElementById('evStatus').value,
+        amount: Number(document.getElementById('evAmount').value) || 0,
+        payment: document.getElementById('evPayment').value,
+        reminderMins: Number(document.getElementById('evReminder').value),
+        notes: document.getElementById('evNotes').value.trim(),
+        notified: false,
+        snoozeUntil: null
+      };
+      if (id) {
+        const i = list.findIndex(x => x.id === id);
+        if (i > -1) list[i] = obj;
+      } else {
+        list.push(obj);
+      }
+      saveEventsList(list);
+      closeModal('eventModal');
+    }
+
+    function saveMoney(e) {
+      e.preventDefault();
+      const id = document.getElementById('editMnId').value;
+      const list = loadMoney();
+      const obj = {
+        id: id || String(Date.now()),
+        title: document.getElementById('mnTitle').value.trim(),
+        type: document.getElementById('mnType').value,
+        category: document.getElementById('mnCategory').value,
+        amount: Number(document.getElementById('mnAmount').value) || 0,
+        date: document.getElementById('mnDate').value,
+        eventName: document.getElementById('mnEvent').value,
+        notes: document.getElementById('mnNotes').value.trim()
+      };
+      if (id) {
+        const i = list.findIndex(x => x.id === id);
+        if (i > -1) list[i] = obj;
+      } else {
+        list.push(obj);
+      }
+      saveMoneyList(list);
+      closeModal('moneyModal');
+    }
+
+    /* Alarm Audio & Reminder Loop */
+    function initAudio() {
+      try {
+        if (!audioCtx) {
+          const AC = window.AudioContext || window.webkitAudioContext;
+          if (AC) audioCtx = new AC();
+        }
+        if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+        const btn = document.getElementById('alarmBtn');
+        btn.classList.add('active');
+        document.getElementById('alarmBtnText').textContent = 'Alarm Ready';
+      } catch (err) {}
+    }
+
+    document.addEventListener('touchstart', initAudio, { once: true });
+    document.addEventListener('click', initAudio, { once: true });
+
+    function playRing() {
+      initAudio();
+      if (!audioCtx) return;
+      const now = audioCtx.currentTime;
+      [880, 1108.73, 1318.51, 880, 1318.51].forEach((f, i) => {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(f, now + i * 0.14);
+        gain.gain.setValueAtTime(0.32, now + i * 0.14);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.14 + 0.13);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(now + i * 0.14);
+        osc.stop(now + i * 0.14 + 0.14);
+      });
+      if (navigator.vibrate) navigator.vibrate([500, 150, 500, 150, 500]);
+    }
+
+    function triggerAlarm(ev) {
+      activeAlarmId = ev.id;
+      document.getElementById('alarmTitle').textContent = ev.name;
+      document.getElementById('alarmMeta').textContent = `${ev.date} at ${time12(ev.time)} • ${inr(ev.amount)}`;
+      document.getElementById('alarmScreen').classList.add('ringing');
+      playRing();
+      clearInterval(ringTimer);
+      ringTimer = setInterval(playRing, 1800);
+    }
+
+    function activateAndTestAlarm() {
+      initAudio();
+      triggerAlarm({ id: 'test', name: 'Sample Catering Reminder', date: new Date().toISOString().split('T')[0], time: '12:00', amount: 800 });
+    }
+
+    function dismissAlarm() {
+      clearInterval(ringTimer);
+      document.getElementById('alarmScreen').classList.remove('ringing');
+      if (activeAlarmId && activeAlarmId !== 'test') {
+        const list = loadEvents();
+        const ev = list.find(x => x.id === activeAlarmId);
+        if (ev) { ev.notified = true; ev.snoozeUntil = null; saveEventsList(list); }
+      }
+      activeAlarmId = null;
+    }
+
+    function snoozeAlarm() {
+      clearInterval(ringTimer);
+      document.getElementById('alarmScreen').classList.remove('ringing');
+      if (activeAlarmId && activeAlarmId !== 'test') {
+        const list = loadEvents();
+        const ev = list.find(x => x.id === activeAlarmId);
+        if (ev) { ev.snoozeUntil = Date.now() + 5 * 60 * 1000; saveEventsList(list); }
+      }
+      activeAlarmId = null;
+    }
+
+    function checkAlarms() {
+      if (document.getElementById('alarmScreen').classList.contains('ringing')) return;
+      const now = Date.now();
+      for (const ev of loadEvents()) {
+        if (ev.status !== 'Upcoming') continue;
+        if (ev.snoozeUntil && now >= ev.snoozeUntil) { triggerAlarm(ev); break; }
+        if (!ev.notified && !ev.snoozeUntil) {
+          const evTs = new Date(`${ev.date}T${ev.time || '00:00'}:00`).getTime();
+          if (isNaN(evTs)) continue;
+          const trigTs = evTs - (Number(ev.reminderMins || 0) * 60 * 1000);
+          if (now >= trigTs && now <= evTs + 2 * 60 * 60 * 1000) { triggerAlarm(ev); break; }
+        }
+      }
+    }
+
+    renderAll();
+    checkAlarms();
+    setInterval(() => {
+      refreshTimersOnly();
+      checkAlarms();
+    }, 1000);
+  </script>
+</body>
+</html>
